@@ -1,0 +1,45 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #057474;
+    font-family: sans-serif;
+    color: floralwhite;
+}
+body {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+}
+
+#game-title {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+}
+
+#game-board {
+    height: 500px;
+    width: 500px;
+    background: #41aea9;
+    box-shadow: 0 0 10px black;
+}
+
+#snake-head {
+
+}
+
+#fruit {
+    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+    position: relative;
+    background: #7d0633;
+}
+
+.snake-part{
+    background: #e0ece4;
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    position: relative;
+}
