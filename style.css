@@ -18,28 +18,49 @@ body {
 }
 
 #game-board {
-    height: 500px;
-    width: 500px;
+    height: 400px;
+    width: 400px;
     background: #41aea9;
     box-shadow: 0 0 10px black;
-}
-
-#snake-head {
-
+    position: relative;
+    border-radius: 10px;
 }
 
 #fruit {
     border-radius: 20px;
-    height: 30px;
-    width: 30px;
-    position: relative;
+    height: 20px;
+    width: 20px;
+    position: absolute;
     background: #7d0633;
+    top: 0px;
+    left: 0px;
+}
+
+#snake-head {
+    top: 190px;
+    left: 190px;
 }
 
 .snake-part{
     background: #e0ece4;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     border-radius: 10px;
-    position: relative;
+    position: absolute;
+}
+
+#play-btns{
+    display: flex;
+}
+
+#start-btn {
+    background: floralwhite;
+    border: 2px solid black;
+    border-radius: 10px;
+    position: absolute;
+    top: 150px;
+    left: 100px;
+    height: 100px;
+    width: 200px;
+    font-size: 4rem;
 }
