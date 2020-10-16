@@ -5,6 +5,8 @@ const gameBoard = document.getElementById('game-board');
 const snakeHead = document.getElementById('snake-head');
 const fruit = document.getElementById('fruit');
 const playBtns = document.getElementById('play-btns');
+const quitBtn = document.getElementById('quit-btn');
+const docScore = document.getElementById('score');
 const body = document.body;
 
 let direction = 'right';
@@ -14,51 +16,73 @@ function gameLoop() {
     let xValue = 190;
     let yValue = 190;
 
-    let fruitx = 0;
-    let fruity = 0;
+    let lastX = 0;
+    let lastY = 0;
+
+    let tempX = 0;
+    let tempY = 0;
+
+    let fruitx = 300;
+    let fruity = 300;
 
     let re = /\d{0,6}/;
 
     let snakeRate = 10;
 
+    let score = 0;
+
     let snakeParts = [snakeHead];
 
     let startGame = setInterval(updateGame, 100);
 
-    function checkForMunch(){
-        if (xValue === fruitx && yValue === fruity){
+    function checkForMunch() {
+        if (xValue === fruitx && yValue === fruity) {
             const snakePart = document.createElement('div');
             snakePart.classList.add('snake-part');
+            snakePart.style.left = lastX + 'px';
+            snakePart.style.top = lastY + 'px';
             gameBoard.appendChild(snakePart);
             snakeParts.push(snakePart);
-            console.log(snakeParts);
+
+            fruitx = Math.floor((Math.random() * (35 - 5) + 5)) * 10;
+            fruity = Math.floor((Math.random() * (35 - 5) + 5)) * 10;
+
+            fruit.style.left = fruitx + 'px';
+            fruit.style.top = fruity + 'px';
+
+            score = snakeParts.length - 1;
+
+            docScore.textContent = `Score: ${score}`;
         }
     }
 
-    function checkForLoss(){
-        if (xValue < 0 || xValue > 380 || yValue < 0 || yValue > 380){
+    function checkForLoss() {
+        if (xValue < 0 || xValue > 380 || yValue < 0 || yValue > 380) {
             endGame = true;
+        }
+
+        for (let i = 0; i < snakeParts.length; i++){
+            if (i > 1){
+                if (snakeHead.style.left == snakeParts[i].style.left && snakeHead.style.top === snakeParts[i].style.top){
+                    endGame = true;
+                }
+            }
         }
 
         if (endGame === true) {
             clearInterval(startGame);
-            console.log('game over!');
-            location.reload();
+            quitBtn.innerHTML = `Game Over! Your Score was: ${score} Click to play again!`;
+            playBtns.style.display = 'block';
+            quitBtn.style.display = 'block';
         }
     }
 
     function updateSnake() {
-        let lastX = 0;
-        let lastY = 0;
 
-        let tempX = 0;
-        let tempY = 0;
+        for (let i = 0; i < snakeParts.length; i++) {
 
-        for (let i = 0; i < snakeParts.length; i++){
-            if (i == 0){
-                //snakeParts[i].style.top = parseInt(snakeParts[i-1].style.top.match(re).join()) + 'px';
-                //snakeParts[i].style.left = parseInt(snakeParts[i-1].style.left.match(re).join()) + 'px';
-                //console.log('working');
+            if (i == 0) {
+
                 lastX = parseInt(snakeHead.style.left.match(re).join());
                 lastY = parseInt(snakeHead.style.top.match(re).join());
 
@@ -68,19 +92,19 @@ function gameLoop() {
                         snakeHead.style.left = xValue + 'px';
                         snakeHead.style.top = yValue + 'px';
                         break;
-        
+
                     case 'down':
                         yValue += snakeRate;
                         snakeHead.style.left = xValue + 'px';
                         snakeHead.style.top = yValue + 'px';
                         break;
-        
+
                     case 'left':
                         xValue -= snakeRate;
                         snakeHead.style.left = xValue + 'px';
                         snakeHead.style.top = yValue + 'px';
                         break;
-        
+
                     case 'right':
                         xValue += snakeRate;
                         snakeHead.style.left = xValue + 'px';
@@ -88,8 +112,7 @@ function gameLoop() {
                         break;
                 }
 
-                
-            }else{
+            } else {
                 tempX = parseInt(snakeParts[i].style.left.match(re).join());
                 tempY = parseInt(snakeParts[i].style.top.match(re).join());
 
@@ -100,16 +123,12 @@ function gameLoop() {
                 lastY = tempY;
             }
         }
-
-        
     }
 
     function updateGame() {
         checkForLoss();
         updateSnake();
         checkForMunch();
-        //console.log(xValue, yValue);
-        //console.log(parseInt(snakeHead.style.left.match(re).join()),parseInt(snakeHead.style.top.match(re).join()));
     }
 }
 
@@ -141,5 +160,9 @@ body.addEventListener('click', e => {
     if (e.target.id === 'start-btn') {
         gameLoop();
         playBtns.style.display = 'none';
+    }
+
+    if (e.target.id === 'quit-btn') {
+        location.reload();
     }
 });
